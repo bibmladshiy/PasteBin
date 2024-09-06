@@ -1,0 +1,26 @@
+version: "2.28.1"
+
+networks:
+  app-network:
+    driver: bridge
+
+services:
+  postgres_db:
+    container_name: postgres_db
+    image: postgres:latest
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: postgres_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 20s
+      timeout: 5s
+      retries: 10
+    restart: no
+    networks:
+      - app-network
