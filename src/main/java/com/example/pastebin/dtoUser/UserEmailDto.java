@@ -1,4 +1,4 @@
-package com.example.kal_l.dtoUser;
+package com.example.pastebin.dtoUser;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;

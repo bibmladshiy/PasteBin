@@ -1,4 +1,4 @@
-package com.example.kal_l.exception;
+package com.example.pastebin.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

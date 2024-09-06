@@ -1,4 +1,4 @@
-package com.example.kal_l.entityPasta;
+package com.example.pastebin.entityPasta;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

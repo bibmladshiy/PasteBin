@@ -1,8 +1,8 @@
-package com.example.kal_l.serviceUser;
+package com.example.pastebin.serviceUser;
 
-import com.example.kal_l.dtoUser.RegDto;
-import com.example.kal_l.dtoUser.UserEmailDto;
-import com.example.kal_l.repositoryUser.UserRepositoryImp;
+import com.example.pastebin.dtoUser.RegDto;
+import com.example.pastebin.dtoUser.UserEmailDto;
+import com.example.pastebin.repositoryUser.UserRepositoryImp;
 import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.example.kal_l.exception;
+package com.example.pastebin.exception;
 
 import lombok.Builder;
 import lombok.Data;

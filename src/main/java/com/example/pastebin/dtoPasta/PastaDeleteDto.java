@@ -1,4 +1,4 @@
-package com.example.kal_l.dtoPasta;
+package com.example.pastebin.dtoPasta;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;

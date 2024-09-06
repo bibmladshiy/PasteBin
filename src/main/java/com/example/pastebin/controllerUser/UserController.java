@@ -1,20 +1,19 @@
-package com.example.kal_l.controllerUser;
+package com.example.pastebin.controllerUser;
 
-import com.example.kal_l.dtoUser.*;
-import com.example.kal_l.serviceUser.UserServiceImp;
+import com.example.pastebin.dtoUser.*;
+import com.example.pastebin.serviceUser.UserServiceImp;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.view.RedirectView;
 
 
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping(value = "/PasteKal")
+@RequestMapping(value = "/PasteBin")
 public class UserController {
     private UserServiceImp userServImp;
     @Autowired

@@ -1,8 +1,8 @@
-package com.example.kal_l.controllerPasta;
+package com.example.pastebin.controllerPasta;
 
-import com.example.kal_l.dtoPasta.*;
-import com.example.kal_l.exception.CustomNoSuchPasteException;
-import com.example.kal_l.servicePasta.PastaServiceImp;
+import com.example.pastebin.dtoPasta.*;
+import com.example.pastebin.exception.CustomNoSuchPasteException;
+import com.example.pastebin.servicePasta.PastaServiceImp;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping(value = "/PasteKal")
+@RequestMapping(value = "/PasteBin")
 public class PastaController {
     private PastaServiceImp pastaServImp;
     @Autowired
@@ -51,12 +51,6 @@ public class PastaController {
     @GetMapping("/{pasta-url}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public String findByUrl (@PathVariable("pasta-url") String url) throws CustomNoSuchPasteException {
-        return pastaServImp.findByUrl("http://localhost:8080/PasteKal/"+url);
-    }
-
-    @PutMapping("/like")
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    public void addLike (@Validated @RequestBody PastaLikeDto pastaLikeDto) {
-        pastaServImp.addLike(pastaLikeDto);
+        return pastaServImp.findByUrl("http://localhost:8081/PasteBin/"+url);
     }
 }

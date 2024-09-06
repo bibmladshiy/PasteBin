@@ -1,7 +1,7 @@
-package com.example.kal_l.repositoryPasta;
+package com.example.pastebin.repositoryPasta;
 
-import com.example.kal_l.entityPasta.Pasta;
-import com.example.kal_l.exception.CustomNoSuchPasteException;
+import com.example.pastebin.entityPasta.Pasta;
+import com.example.pastebin.exception.CustomNoSuchPasteException;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -26,8 +26,4 @@ public interface PastaRepository extends JpaRepository<Pasta, Long> {
     @Transactional
     @Query("update Pasta p set p.pastaName = ?1 where p.pastaName = ?2")
     void queryPastaByPastaName(String pastaNameNew, String pastaName);
-    @Modifying
-    @Transactional
-    @Query("update Pasta p set p.likes = ?1 where p.pastaName = ?2")
-    void queryPastaByLikesAndPastaName(Long likesNew, String pastaName);
 }

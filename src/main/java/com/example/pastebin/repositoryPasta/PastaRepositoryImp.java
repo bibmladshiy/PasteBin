@@ -1,16 +1,11 @@
-package com.example.kal_l.repositoryPasta;
+package com.example.pastebin.repositoryPasta;
 
-import com.example.kal_l.configuration.CustomMail;
-import com.example.kal_l.dtoPasta.PastaCreationDto;
-import com.example.kal_l.dtoPasta.PastaLikeDto;
-import com.example.kal_l.entityPasta.Lifetime;
-import com.example.kal_l.entityPasta.Pasta;
-import com.example.kal_l.entityPasta.PastaStatus;
-import com.example.kal_l.exception.CustomNoSuchPasteException;
-import com.example.kal_l.repositoryUser.UserRepositoryImp;
-import com.example.kal_l.url.Status;
-import com.example.kal_l.url.UrlRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.example.pastebin.dtoPasta.PastaCreationDto;
+import com.example.pastebin.entityPasta.Lifetime;
+import com.example.pastebin.entityPasta.Pasta;
+import com.example.pastebin.entityPasta.PastaStatus;
+import com.example.pastebin.exception.CustomNoSuchPasteException;
+import com.example.pastebin.repositoryUser.UserRepositoryImp;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,14 +15,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.FluentQuery;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Repository;
 import redis.clients.jedis.Jedis;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -37,24 +31,19 @@ import java.util.function.Function;
 @Slf4j
 @EnableScheduling
 public class PastaRepositoryImp implements PastaRepository{
+    long i = 0;
     private PastaRepository pastaRep;
     private UserRepositoryImp userRepImp;
-    private JavaMailSender mailSender;
-    private UrlRepository urlRepository;
+
     @Autowired
-    public PastaRepositoryImp(@Qualifier("pastaRepository") PastaRepository pastaRep, UserRepositoryImp userRepImp,
-                              JavaMailSender mailSender, UrlRepository urlRepository) {
+    public PastaRepositoryImp(@Qualifier("pastaRepository") PastaRepository pastaRep, UserRepositoryImp userRepImp) {
         this.pastaRep = pastaRep;
         this.userRepImp = userRepImp;
-        this.mailSender = mailSender;
-        this.urlRepository = urlRepository;
     }
     public String savePasta(PastaCreationDto pastaCreationDto) {
         pastaCreationDto.setPastaStatus(PastaStatus.fromValue(pastaCreationDto.getStatus()));
         pastaCreationDto.setPastaLifetime(Lifetime.fromValue(pastaCreationDto.getLifetime()));
-        String a = "http://localhost:8080/PasteKal/" +
-                urlRepository.findFirstByStatus(Status.FREE).get().getBaseUrl();
-        urlRepository.findFirstByStatus(Status.FREE).get().setStatus(Status.TAKEN);
+        String a = "http://localhost:8081/PasteBin/" + Base64.getUrlEncoder().encodeToString(String.valueOf(i).getBytes());
         pastaRep.save(Pasta.builder()
                         .pastaName(pastaCreationDto.getPastaName())
                         .pastaText(pastaCreationDto.getPastaText())
@@ -64,14 +53,12 @@ public class PastaRepositoryImp implements PastaRepository{
                         .lifetime(pastaCreationDto.getPastaLifetime())
                         .user(userRepImp.findUserByUserNameAndUserPassword(pastaCreationDto.getUserName(),
                                 pastaCreationDto.getUserPassword()).get())
-                        .likes(0L)
                         .views(0L)
                 .build());
+        i++;
         return a;
     }
     public void queryPastaByViewsAndPastaName(Long viewsNew, String pastaName){
-    }
-    public void queryPastaByLikesAndPastaName(Long likesNew, String pastaName){
     }
     public Pasta findPastaByUrl(String url) throws CustomNoSuchPasteException {
         Pasta p = pastaRep.findPastaByUrl(url);
@@ -86,7 +73,7 @@ public class PastaRepositoryImp implements PastaRepository{
             if (p.getPastaStatus() == PastaStatus.UNLISTED) {
                 pastas.add("Pasta name: " + p.getPastaName() + "  *****  Pasta: " + p.getPastaText() +
                         "  *****  Status: " + p.getPastaStatus() + "  *****  Lifetime: " + p.getLifetime() +
-                        "  *****  Views: " + p.getViews() + "  *****  Likes: " + p.getLikes());
+                        "  *****  Views: " + p.getViews());
             }
         }
         return pastas;
@@ -95,18 +82,11 @@ public class PastaRepositoryImp implements PastaRepository{
         return pastaRep.findPastaByPastaName(pastaName);
     }
     public void deletePastaByPastaName(String pastaName) {
-        try (var jedis = new Jedis()) { jedis.del(pastaRep.findPastaByPastaName(pastaName).get().getUrl()); }
+        try (var jedis = new Jedis("redis", 6379)) { jedis.del(pastaRep.findPastaByPastaName(pastaName).get().getUrl()); }
         pastaRep.deletePastaByPastaName(pastaName);
     }
     public void queryPastaByPastaName(String pastaNameNew, String pastaName){
         pastaRep.queryPastaByPastaName(pastaNameNew, pastaName);
-    }
-    public void addLike(PastaLikeDto pastaLikeDto) {
-        Pasta p = pastaRep.findPastaByPastaName(pastaLikeDto.getPastaName()).get();
-        pastaRep.queryPastaByLikesAndPastaName(p.getLikes()+1L, p.getPastaName());
-        SimpleMailMessage mail = new CustomMail().sendLikeMail(p.getUser().getUserEmail(),
-                pastaLikeDto.getUserName(), pastaLikeDto.getPastaName());
-        mailSender.send(mail);
     }
 
 

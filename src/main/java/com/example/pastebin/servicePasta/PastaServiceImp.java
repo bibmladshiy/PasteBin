@@ -1,10 +1,9 @@
-package com.example.kal_l.servicePasta;
+package com.example.pastebin.servicePasta;
 
-import com.example.kal_l.dtoPasta.PastaCreationDto;
-import com.example.kal_l.dtoPasta.PastaLikeDto;
-import com.example.kal_l.entityPasta.Pasta;
-import com.example.kal_l.exception.CustomNoSuchPasteException;
-import com.example.kal_l.repositoryPasta.PastaRepositoryImp;
+import com.example.pastebin.dtoPasta.PastaCreationDto;
+import com.example.pastebin.entityPasta.Pasta;
+import com.example.pastebin.exception.CustomNoSuchPasteException;
+import com.example.pastebin.repositoryPasta.PastaRepositoryImp;
 import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +32,7 @@ public class PastaServiceImp implements PastaService{
         pastaRepImp.queryPastaByPastaName(pastaNameNew, pastaName);
     }
     public String findByUrl(String url) throws CustomNoSuchPasteException {
-        try (var jedis = new Jedis()){
+        try (var jedis = new Jedis("redis", 6379)){
             if (jedis.get(url) != null) {
                 Pasta p = pastaRepImp.findPastaByUrl(url);
                 pastaRepImp.queryPastaByViewsAndPastaName(p.getViews()+1L,p.getPastaName());
@@ -43,12 +42,9 @@ public class PastaServiceImp implements PastaService{
         Pasta p = pastaRepImp.findPastaByUrl(url);
         return "Pasta name: " + p.getPastaName() + "  *****  Pasta: " + p.getPastaText() +
                 "  *****  Status: " + p.getPastaStatus() + "  *****  Lifetime: " + p.getLifetime() +
-                "  *****  Views: " + p.getViews() + "  *****  Likes: " + p.getLikes();
+                "  *****  Views: " + p.getViews();
     }
     public List<String> findTenPastas() {
         return pastaRepImp.findTenPastas();
-    }
-    public void addLike(PastaLikeDto pastaLikeDto){
-        pastaRepImp.addLike(pastaLikeDto);
     }
 }

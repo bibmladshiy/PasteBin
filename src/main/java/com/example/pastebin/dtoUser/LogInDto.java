@@ -1,4 +1,4 @@
-package com.example.kal_l.dtoUser;
+package com.example.pastebin.dtoUser;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

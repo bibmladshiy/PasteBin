@@ -1,8 +1,7 @@
-package com.example.kal_l.servicePasta;
+package com.example.pastebin.servicePasta;
 
-import com.example.kal_l.dtoPasta.PastaCreationDto;
-import com.example.kal_l.dtoPasta.PastaLikeDto;
-import com.example.kal_l.exception.CustomNoSuchPasteException;
+import com.example.pastebin.dtoPasta.PastaCreationDto;
+import com.example.pastebin.exception.CustomNoSuchPasteException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,5 +13,4 @@ public interface PastaService {
     void updatePastaName(String pastaNameNew, String pastaName);
     String findByUrl(String url) throws CustomNoSuchPasteException;
     List<String> findTenPastas();
-    void addLike(PastaLikeDto pastaLikeDto);
 }

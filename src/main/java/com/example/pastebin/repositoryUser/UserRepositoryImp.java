@@ -1,13 +1,12 @@
-package com.example.kal_l.repositoryUser;
+package com.example.pastebin.repositoryUser;
 
-import com.example.kal_l.configuration.CustomMail;
-import com.example.kal_l.dtoUser.RegDto;
-import com.example.kal_l.dtoUser.UserEmailDto;
-import com.example.kal_l.entityUser.User;
-
-import com.example.kal_l.exception.CustomDeletingException;
-import com.example.kal_l.exception.CustomLoggingInException;
-import com.example.kal_l.exception.CustomWrongCodeException;
+import com.example.pastebin.configuration.CustomMail;
+import com.example.pastebin.dtoUser.RegDto;
+import com.example.pastebin.dtoUser.UserEmailDto;
+import com.example.pastebin.entityUser.User;
+import com.example.pastebin.exception.CustomDeletingException;
+import com.example.pastebin.exception.CustomLoggingInException;
+import com.example.pastebin.exception.CustomWrongCodeException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +16,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.FluentQuery;
-import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -31,16 +30,16 @@ import java.util.function.Function;
 @Slf4j
 public class UserRepositoryImp implements UserRepository {
     private UserRepository userRep;
-    private JavaMailSender mailSender;
     private SimpleMailMessage mail = null;
+    private CustomMail customMail;
     @Autowired
-    public UserRepositoryImp(@Qualifier("userRepository") UserRepository userRep, JavaMailSender mailSender) {
+    public UserRepositoryImp(@Qualifier("userRepository") UserRepository userRep, CustomMail customMail) {
         this.userRep = userRep;
-        this.mailSender = mailSender;
+        this.customMail = customMail;
     }
     public void sendEmail(UserEmailDto userEmailDto) {
         mail = new CustomMail().sendRegMail(userEmailDto.getUserEmail());
-        mailSender.send(mail);
+        customMail.getJavaMailSender().send(mail);
     }
 
     public void sendCode(String code) {

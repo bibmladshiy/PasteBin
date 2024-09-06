@@ -1,4 +1,4 @@
-package com.example.kal_l.dtoPasta;
+package com.example.pastebin.dtoPasta;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -20,6 +20,7 @@ public class PastaUpdateNameDto implements Serializable {
     @NotNull(message = "New pasta name can't be empty")
     @Length(min = 5, max = 25, message = "New pasta name should be between 5 to 25 characters")
     private String pastaNameNew;
+
     @NotNull(message = "Pasta name can't be empty")
     @Length(min = 5, max = 25, message = "Pasta name should be between 5 to 25 characters")
     private String pastaName;

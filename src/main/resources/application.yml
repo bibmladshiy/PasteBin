@@ -1,23 +1,26 @@
 spring:
-  h2:
-    console:
-      enabled: true
   datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:testdb
-    username: sa
-    password: sa
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/postgres}
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
   jpa:
     show-sql: true
-    hibernate:
-      ddl-auto: update
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.H2Dialect
+        format_sql: true
+        hbm2ddl:
+          auto: create
   mail:
     host: smtp.yandex.ru
     port: 465
-    username: misha.shevluagin
-    password: xsqnlyehnxggquvv
+    username: #вставить почту, с которой будет проводиться рассылка
+    password: #вставить пароль для яндекс почты
     test-connection: true
     protocol: smtps
+  data:
+    redis:
+      host: ${PASTEBIN_REDIS_HOST}
+      port: ${PASTEBIN_REDIS_PORT}
+server:
+  port: 8081

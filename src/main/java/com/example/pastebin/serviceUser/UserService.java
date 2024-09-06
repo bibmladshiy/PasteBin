@@ -1,7 +1,7 @@
-package com.example.kal_l.serviceUser;
+package com.example.pastebin.serviceUser;
 
-import com.example.kal_l.dtoUser.RegDto;
-import com.example.kal_l.dtoUser.UserEmailDto;
+import com.example.pastebin.dtoUser.RegDto;
+import com.example.pastebin.dtoUser.UserEmailDto;
 import org.springframework.stereotype.Service;
 
 @Service
