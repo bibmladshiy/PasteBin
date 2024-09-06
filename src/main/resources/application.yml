@@ -15,7 +15,7 @@ spring:
     host: smtp.yandex.ru
     port: 465
     username: #вставить почту, с которой будет проводиться рассылка
-    password: #вставить пароль для яндекс почты
+    password:  #вставить пароль для яндекс почты
     test-connection: true
     protocol: smtps
   data:

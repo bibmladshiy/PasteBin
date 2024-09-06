@@ -1,6 +1,7 @@
 package com.example.pastebin.controllerPasta;
 
 import com.example.pastebin.dtoPasta.*;
+import com.example.pastebin.entityPasta.Pasta;
 import com.example.pastebin.exception.CustomNoSuchPasteException;
 import com.example.pastebin.servicePasta.PastaServiceImp;
 import lombok.RequiredArgsConstructor;
@@ -25,13 +26,13 @@ public class PastaController {
 
     @GetMapping("")
     @ResponseStatus(HttpStatus.FOUND)
-    public List<String> findTenPastas() {
+    public List<PastaFindDto> findTenPastas() {
         return pastaServImp.findTenPastas();
     }
 
     @PostMapping("/create-pasta")
     @ResponseStatus(HttpStatus.CREATED)
-    public String  createPasta(@Validated @RequestBody PastaCreationDto pastaCreationDto) {
+    public String createPasta(@Validated @RequestBody PastaCreationDto pastaCreationDto) {
         return pastaServImp.createPasta(pastaCreationDto);
     }
 
@@ -50,7 +51,7 @@ public class PastaController {
 
     @GetMapping("/{pasta-url}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public String findByUrl (@PathVariable("pasta-url") String url) throws CustomNoSuchPasteException {
+    public PastaFindDto findByUrl (@PathVariable("pasta-url") String url) throws CustomNoSuchPasteException {
         return pastaServImp.findByUrl("http://localhost:8081/PasteBin/"+url);
     }
 }

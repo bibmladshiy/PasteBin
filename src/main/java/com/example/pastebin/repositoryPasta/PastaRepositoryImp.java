@@ -43,11 +43,11 @@ public class PastaRepositoryImp implements PastaRepository{
     public String savePasta(PastaCreationDto pastaCreationDto) {
         pastaCreationDto.setPastaStatus(PastaStatus.fromValue(pastaCreationDto.getStatus()));
         pastaCreationDto.setPastaLifetime(Lifetime.fromValue(pastaCreationDto.getLifetime()));
-        String a = "http://localhost:8081/PasteBin/" + Base64.getUrlEncoder().encodeToString(String.valueOf(i).getBytes());
+        String url = "http://localhost:8081/PasteBin/" + Base64.getUrlEncoder().encodeToString(String.valueOf(i).getBytes());
         pastaRep.save(Pasta.builder()
                         .pastaName(pastaCreationDto.getPastaName())
                         .pastaText(pastaCreationDto.getPastaText())
-                        .url(a)
+                        .url(url)
                         .pastaStatus(pastaCreationDto.getPastaStatus())
                         .creationTime(Instant.now())
                         .lifetime(pastaCreationDto.getPastaLifetime())
@@ -56,7 +56,7 @@ public class PastaRepositoryImp implements PastaRepository{
                         .views(0L)
                 .build());
         i++;
-        return a;
+        return url;
     }
     public void queryPastaByViewsAndPastaName(Long viewsNew, String pastaName){
     }
@@ -66,14 +66,12 @@ public class PastaRepositoryImp implements PastaRepository{
         pastaRep.queryPastaByViewsAndPastaName(p.getViews()+1L,p.getPastaName());
         return p;
     }
-    public List<String> findTenPastas() {
-        List<String> pastas = new ArrayList<>();
+    public List<Pasta> findTenPastas() {
+        List<Pasta> pastas = new ArrayList<>();
         for (long i = 1L; i < 11L && pastaRep.count() - i+1L != 0; i++) {
             Pasta p = pastaRep.findById(i).get();
             if (p.getPastaStatus() == PastaStatus.UNLISTED) {
-                pastas.add("Pasta name: " + p.getPastaName() + "  *****  Pasta: " + p.getPastaText() +
-                        "  *****  Status: " + p.getPastaStatus() + "  *****  Lifetime: " + p.getLifetime() +
-                        "  *****  Views: " + p.getViews());
+                pastas.add(p);
             }
         }
         return pastas;

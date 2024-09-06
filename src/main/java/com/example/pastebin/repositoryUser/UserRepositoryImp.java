@@ -57,7 +57,7 @@ public class UserRepositoryImp implements UserRepository {
     }
     public Optional<User> findUserByUserNameAndUserPassword(String userName, String userPassword) {
         userRep.findUserByUserNameAndUserPassword(userName, userPassword).orElseThrow(
-                () -> new CustomLoggingInException()
+                CustomLoggingInException::new
         );
         return userRep.findUserByUserNameAndUserPassword(userName, userPassword);
     }
@@ -66,7 +66,7 @@ public class UserRepositoryImp implements UserRepository {
             userRep.deleteUserByUserNameAndUserPassword(userName, userPassword);
         }
         else throw new CustomDeletingException();
-        return null;
+        return Optional.empty();
     }
     public void queryUserByUserPassword(String userPasswordNew, String userPassword) {
         userRep.queryUserByUserPassword(userPasswordNew, userPassword);
