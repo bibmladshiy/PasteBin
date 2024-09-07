@@ -8,32 +8,32 @@
 
 Все остальные методы проекта являются CRUD-операциями по добавлению записей в базу, их изменению и удалению. Примеры запросов таких методов описаны ниже:
 
-Регистрация пользователя POST запрос localhost:8081/PasteBin/registration
+Регистрация пользователя POST запрос http://localhost:8081/PasteBin/registration
 {
 	"userName": "vlad",
 	"userEmail": "anton@something.com",
 	"userPassword": "123123"
 }
 
-Log-in GET запрос localhost:8081/PasteBin/login
+Log-in GET запрос http://localhost:8081/PasteBin/login
 {
 	"userName": "vlad",
 	"userPassword": "123123"
 }
 
-Удаления пользователя DELETE запрос localhost:8081/PasteBin/delete-user
+Удаления пользователя DELETE запрос http://localhost:8081/PasteBin/delete-user
 {
 	"userName": "vlad",
 	"userPassword": "123123"
 }
 
-Изменение пароля пользователя PUT запрос localhost:8081/PasteBin/update-password
+Изменение пароля пользователя PUT запрос http://localhost:8081/PasteBin/update-password
 {
 	"userPasswordNew": "5656",
 	"userPassword": "123123"
 }
 
-Создание новой пасты POST запрос localhost:8081/PasteBin/create-pasta
+Создание новой пасты POST запрос http://localhost:8081/PasteBin/create-pasta
 {
 	"pastaName": "anekdot",
 	"pastaText": "pro chapayeva",
@@ -43,12 +43,12 @@ Log-in GET запрос localhost:8081/PasteBin/login
 	"userPassword": "5656"
 }
 
-Удаление пасты DELETE запрос localhost:8081/PasteBin/delete-pasta
+Удаление пасты DELETE запрос http://localhost:8081/PasteBin/delete-pasta
 {
 	"pastaName": "anekdot"
 }
 
-Изменение названия пасты PUT запрос localhost:8081/PasteBin/update-pasta-name
+Изменение названия пасты PUT запрос http://localhost:8081/PasteBin/update-pasta-name
 {
 	"pastaNameNew": "nesmeshnoy anekdot",
 	"pastaName": "anekdot"
@@ -61,5 +61,5 @@ GET запрос localhost:8081/PasteBin вернёт 10 последних оп
 Так же есть метод, который отправляет сообщение со сгенерированным кодом на почту (для завершения регистрации). Для его корректной работы необходимо в файле application.yml и в классе CustomMail (метод getJavaMailSender) прописать логин и пароль (от почты, с которой будет вестись рассылка).
 Пример данного GET запроса http://localhost:8081/PasteBin/send-email
 {
-	"userEmail": "sevlaginmisha@gmail.com"
+	"userEmail": "someemail@pochta.com"
 }
