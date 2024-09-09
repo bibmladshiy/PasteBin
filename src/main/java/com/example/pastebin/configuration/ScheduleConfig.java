@@ -33,7 +33,7 @@ public class ScheduleConfig {
 
     //Чистит бд с пастами, удаляя просроченные пасты
     @Async
-    @Scheduled(fixedDelay = 5000, initialDelay = 900000000)
+    @Scheduled(fixedDelay = 5000, initialDelay = 600000)
     @Transactional
     public void delayDeletePasta() {
         List<Pasta> listPasta = new ArrayList<>(pastaRep.findAll());
